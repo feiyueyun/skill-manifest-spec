@@ -1,4 +1,3 @@
-```markdown
 # Skill Manifest Specification
 
 The open standard for describing AI Agent skill services.
@@ -30,4 +29,3 @@ We welcome contributions! Please see our RFC process (coming soon) for proposing
 ## License
 
 Apache License 2.0 — see [LICENSE](LICENSE).
-```
