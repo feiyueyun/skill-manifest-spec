@@ -1,0 +1,88 @@
+{
+  "$schema": "https://github.com/feiyueyun/skill-manifest-spec/spec/skill-manifest-v1.schema.json",
+  "schema_version": "1.0.0",
+  "name": "weather-lookup",
+  "version": "1.2.0",
+  "description": "Query real-time weather data for cities worldwide, including temperature, humidity, wind speed, and air quality",
+  "type": "claw",
+  "entry_point": "main.py",
+  "openclaw_compatible": true,
+  "permissions": [
+    "network"
+  ],
+  "network_endpoints": [
+    "api.openweathermap.org:443",
+    "api.weatherapi.com:443"
+  ],
+  "risk_level": "low",
+  "visibility": "public",
+  "capabilities": [
+    "weather:query",
+    "weather:forecast"
+  ],
+  "when_to_use": "Use this skill when users ask about weather conditions, need forecast data, or need to make decisions based on weather",
+  "category": "utility",
+  "models": [
+    "claude-*",
+    "gpt-*",
+    "gemini-*"
+  ],
+  "input_examples": [
+    "What's the weather like in Beijing today?",
+    "What's the weather in Tokyo?",
+    "3-day weather forecast for Shanghai"
+  ],
+  "output_examples": [
+    "Beijing: 25°C, humidity 60%, SE wind level 3, good air quality",
+    "Tokyo: 22°C, partly cloudy, humidity 55%, wind 10 km/h NW"
+  ],
+  "related_skills": [
+    "air-quality-monitor",
+    "travel-planner"
+  ],
+  "role_affinity": [
+    "personal-assistant",
+    "travel-agent"
+  ],
+  "tags": [
+    "weather",
+    "utility",
+    "role:assistant",
+    "lang:python"
+  ],
+  "locale": "zh-CN",
+  "locales": {
+    "en-US": {
+      "description": "Query real-time weather information for cities worldwide",
+      "when_to_use": "Use this skill when users ask about weather conditions or forecasts"
+    }
+  },
+  "interop": {
+    "agent_skills": true,
+    "clawhub": true,
+    "a2a_card": false
+  },
+  "disclosure": {
+    "level_0": [
+      "name",
+      "description",
+      "when_to_use",
+      "category",
+      "tags"
+    ],
+    "level_1": [
+      "instructions_path",
+      "input_examples",
+      "output_examples"
+    ],
+    "level_2": [
+      "references/weather-api-guide.md"
+    ]
+  },
+  "ontology": {
+    "domain": "utility",
+    "category": "information-retrieval",
+    "skill_node": "weather-query-v1"
+  },
+  "instructions_path": "instructions.md"
+}

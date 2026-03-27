@@ -1,0 +1,93 @@
+{
+  "$schema": "https://github.com/feiyueyun/skill-manifest-spec/spec/skill-manifest-v1.schema.json",
+  "schema_version": "1.0.0",
+  "name": "code-review",
+  "version": "2.0.1",
+  "description": "Automated code review service with multi-language code quality analysis, security vulnerability detection, and best practice recommendations",
+  "type": "service",
+  "entry_point": "server.js",
+  "auto_start": true,
+  "listen_port": 8080,
+  "protocol": "json-rpc",
+  "permissions": [
+    "filesystem",
+    "network"
+  ],
+  "network_endpoints": [
+    "api.github.com:443"
+  ],
+  "risk_level": "medium",
+  "visibility": "network",
+  "capabilities": [
+    "code:review",
+    "code:lint",
+    "code:security-scan"
+  ],
+  "when_to_use": "Use when you need automated review of code changes, security vulnerability detection, or code quality assessment",
+  "category": "development",
+  "models": [
+    "claude-*",
+    "gpt-4*"
+  ],
+  "input_examples": [
+    "Review the code changes in this PR",
+    "Check src/auth.go for security vulnerabilities"
+  ],
+  "tags": [
+    "code-review",
+    "development",
+    "security",
+    "role:developer"
+  ],
+  "pricing": {
+    "model": "per_call",
+    "unit_price": 0.5,
+    "currency": "credit",
+    "free_tier": 100
+  },
+  "sla": {
+    "availability": 99.5,
+    "max_response_ms": 30000,
+    "max_concurrency": 10
+  },
+  "resellable": true,
+  "resale_commission": 0.3,
+  "health_check": {
+    "endpoint": "/health",
+    "interval": 30,
+    "timeout": 5
+  },
+  "resource_limits": {
+    "cpu": "1.0",
+    "memory": "512Mi"
+  },
+  "timeout": 60,
+  "depends_on": [
+    "git-helper",
+    {
+      "name": "syntax-parser",
+      "version": ">=1.0.0 <3.0.0"
+    }
+  ],
+  "conflicts_with": [
+    "legacy-code-checker"
+  ],
+  "min_cli_version": "0.5.0",
+  "schedule": {
+    "cron": "0 2 * * 1",
+    "timezone": "Asia/Shanghai",
+    "enabled": true,
+    "action": "scan-all-repos",
+    "params": {
+      "depth": "shallow"
+    }
+  },
+  "requirements": {
+    "runtime": "node",
+    "min_version": "20.0.0",
+    "dependencies": [
+      "git"
+    ]
+  },
+  "locale": "zh-CN"
+}

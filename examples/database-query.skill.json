@@ -1,0 +1,119 @@
+{
+  "$schema": "https://github.com/feiyueyun/skill-manifest-spec/spec/skill-manifest-v1.schema.json",
+  "schema_version": "1.0.0",
+  "name": "database-query",
+  "version": "1.0.0",
+  "description": "Query databases using natural language with SQL generation, execution, and result formatting, compatible with PostgreSQL and MySQL",
+  "type": "mcp",
+  "entry_point": "mcp_server.py",
+  "mcp": {
+    "tools": [
+      {
+        "name": "query",
+        "description": "Execute natural language database queries with automatic SQL generation and execution",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "question"
+          ],
+          "properties": {
+            "question": {
+              "type": "string",
+              "description": "Natural language query question"
+            },
+            "database": {
+              "type": "string",
+              "description": "Target database name"
+            },
+            "limit": {
+              "type": "integer",
+              "default": 100,
+              "description": "Result row limit"
+            }
+          }
+        }
+      },
+      {
+        "name": "explain",
+        "description": "Explain the execution plan of a SQL query",
+        "inputSchema": {
+          "type": "object",
+          "required": [
+            "sql"
+          ],
+          "properties": {
+            "sql": {
+              "type": "string",
+              "description": "SQL statement to explain"
+            }
+          }
+        }
+      }
+    ],
+    "resources": [
+      {
+        "uri": "db://schema",
+        "name": "Database Schema",
+        "mimeType": "application/json"
+      },
+      {
+        "uri": "db://tables",
+        "name": "Table List",
+        "mimeType": "application/json"
+      }
+    ],
+    "prompts": [
+      {
+        "name": "sql-expert",
+        "description": "SQL expert mode for query performance optimization"
+      }
+    ]
+  },
+  "mcp_mode": "proxy",
+  "mcp_remote": {
+    "endpoint": "https://db-mcp.example.com/mcp",
+    "transport": "streamable-http",
+    "auth_type": "api_key",
+    "auth_ref": "secret:db-mcp-api-key",
+    "timeout_ms": 60000,
+    "cache_ttl_s": 300
+  },
+  "permissions": [
+    "network",
+    "credential"
+  ],
+  "network_endpoints": [
+    "db-mcp.example.com:443"
+  ],
+  "risk_level": "high",
+  "visibility": "private",
+  "capabilities": [
+    "database:query",
+    "database:explain"
+  ],
+  "when_to_use": "Use this skill when you need to query databases, analyze data, or generate SQL reports",
+  "category": "data",
+  "tags": [
+    "database",
+    "sql",
+    "data",
+    "mcp"
+  ],
+  "memory_access": {
+    "read_soul": false,
+    "read_memory": true,
+    "write_memory": true
+  },
+  "ontology": {
+    "domain": "engineering",
+    "category": "data-management",
+    "skill_node": "database-query-v1"
+  },
+  "locale": "zh-CN",
+  "extra_metadata": {
+    "supported_databases": [
+      "postgresql",
+      "mysql"
+    ]
+  }
+}
