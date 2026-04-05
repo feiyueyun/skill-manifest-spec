@@ -89,11 +89,17 @@ type Manifest struct {
 	HealthCheck    *HealthCheck    `json:"health_check,omitempty"`
 
 	// Interoperability
-	Interop          *Interop       `json:"interop,omitempty"`
-	Disclosure       *Disclosure    `json:"disclosure,omitempty"`
-	Ontology         *Ontology      `json:"ontology,omitempty"`
-	InstructionsPath *string        `json:"instructions_path,omitempty"`
-	ExtraMetadata    map[string]any `json:"extra_metadata,omitempty"`
+	Interop          *Interop    `json:"interop,omitempty"`
+	Disclosure       *Disclosure `json:"disclosure,omitempty"`
+	Ontology         *Ontology   `json:"ontology,omitempty"`
+	InstructionsPath *string     `json:"instructions_path,omitempty"`
+
+	// Deliverable format and quality indicators
+	OutputFormat      []string           `json:"output_format,omitempty"`
+	OutputSchema      *string            `json:"output_schema,omitempty"`
+	QualityIndicators *QualityIndicators `json:"quality_indicators,omitempty"`
+
+	ExtraMetadata map[string]any `json:"extra_metadata,omitempty"`
 }
 
 // --- Nested types ---
@@ -234,4 +240,15 @@ type Ontology struct {
 	Domain    *string `json:"domain,omitempty"`
 	Category  *string `json:"category,omitempty"`
 	SkillNode *string `json:"skill_node,omitempty"`
+}
+
+// QualityIndicators holds skill quality and security indicators.
+// quality_score and total_calls are populated by the platform at runtime.
+type QualityIndicators struct {
+	Verified      *bool    `json:"verified,omitempty"`
+	SecurityAudit *string  `json:"security_audit,omitempty"`
+	QualityScore  *float64 `json:"quality_score,omitempty"`
+	TotalCalls    *int     `json:"total_calls,omitempty"`
+	SourceType    *string  `json:"source_type,omitempty"`
+	SourceURL     *string  `json:"source_url,omitempty"`
 }

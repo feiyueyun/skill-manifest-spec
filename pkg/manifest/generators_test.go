@@ -58,7 +58,9 @@ func genCategory(t *rapid.T) string {
 	return rapid.SampledFrom([]string{
 		"ai-ml", "utility", "development", "productivity", "web",
 		"science", "media", "social", "finance", "smart-home",
-		"communication", "security", "data", "other",
+		"communication", "security", "data", "ecommerce",
+		"logistics", "customer-service", "compliance", "legal",
+		"healthcare", "other",
 	}).Draw(t, "category")
 }
 
@@ -156,7 +158,7 @@ func genMCPRemote(t *rapid.T) *MCPRemote {
 // genPricing generates a valid Pricing object.
 // When model is not "free", unit_price is always included.
 func genPricing(t *rapid.T) *Pricing {
-	model := rapid.SampledFrom([]string{"free", "per_call", "per_minute", "per_token", "subscription"}).Draw(t, "pricing-model")
+	model := rapid.SampledFrom([]string{"free", "per_call", "per_output", "per_minute", "per_token", "subscription"}).Draw(t, "pricing-model")
 	p := &Pricing{Model: &model}
 
 	if model != "free" {
@@ -457,6 +459,49 @@ func genValidManifest(t *rapid.T) *Manifest {
 			ClawHub:     &ch,
 			A2ACard:     &a2a,
 		}
+	}
+
+	// output_format
+	if rapid.Bool().Draw(t, "has-output-format") {
+		count := rapid.IntRange(1, 4).Draw(t, "output-format-count")
+		formats := make([]string, count)
+		pool := []string{"json", "markdown", "html", "pdf", "excel", "csv", "text", "image"}
+		for i := range formats {
+			formats[i] = rapid.SampledFrom(pool).Draw(t, fmt.Sprintf("output-format-%d", i))
+		}
+		m.OutputFormat = formats
+	}
+
+	// quality_indicators
+	if rapid.Bool().Draw(t, "has-quality-indicators") {
+		qi := &QualityIndicators{}
+		if rapid.Bool().Draw(t, "qi-has-verified") {
+			v := rapid.Bool().Draw(t, "qi-verified")
+			qi.Verified = &v
+		}
+		if rapid.Bool().Draw(t, "qi-has-security-audit") {
+			sa := rapid.StringMatching(`[A-Za-z ]{10,30}`).Draw(t, "qi-security-audit")
+			qi.SecurityAudit = &sa
+		}
+		if rapid.Bool().Draw(t, "qi-has-quality-score") {
+			qs := rapid.Float64Range(0.0, 5.0).Draw(t, "qi-quality-score")
+			qi.QualityScore = &qs
+		}
+		if rapid.Bool().Draw(t, "qi-has-total-calls") {
+			tc := rapid.IntRange(0, 100000).Draw(t, "qi-total-calls")
+			qi.TotalCalls = &tc
+		}
+		if rapid.Bool().Draw(t, "qi-has-source-type") {
+			st := rapid.SampledFrom([]string{"manual", "github", "agent-skills", "clawhub"}).Draw(t, "qi-source-type")
+			qi.SourceType = &st
+		}
+		if rapid.Bool().Draw(t, "qi-has-source-url") {
+			su := fmt.Sprintf("https://%s.com/%s",
+				rapid.StringMatching(`[a-z]{3,10}`).Draw(t, "qi-source-domain"),
+				rapid.StringMatching(`[a-z]{3,10}`).Draw(t, "qi-source-path"))
+			qi.SourceURL = &su
+		}
+		m.QualityIndicators = qi
 	}
 
 	return m

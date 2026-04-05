@@ -312,6 +312,12 @@ var schemaJSON = `{
         "communication",
         "security",
         "data",
+        "ecommerce",
+        "logistics",
+        "customer-service",
+        "compliance",
+        "legal",
+        "healthcare",
         "other"
       ],
       "default": "other",
@@ -368,6 +374,7 @@ var schemaJSON = `{
           "enum": [
             "free",
             "per_call",
+            "per_output",
             "per_minute",
             "per_token",
             "subscription"
@@ -657,6 +664,54 @@ var schemaJSON = `{
     "instructions_path": {
       "type": "string",
       "description": "Relative path to instructions.md"
+    },
+    "output_format": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Supported output format list (e.g. json/markdown/pdf/excel)"
+    },
+    "output_schema": {
+      "type": "string",
+      "format": "uri",
+      "description": "JSON Schema URL for output data structure"
+    },
+    "quality_indicators": {
+      "type": "object",
+      "properties": {
+        "verified": {
+          "type": "boolean",
+          "default": false
+        },
+        "security_audit": {
+          "type": "string"
+        },
+        "quality_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "total_calls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "manual",
+            "github",
+            "agent-skills",
+            "clawhub"
+          ]
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Skill quality and security indicators (some fields populated by platform at runtime)"
     },
     "extra_metadata": {
       "type": "object",

@@ -1,0 +1,85 @@
+{
+  "$comment": "Skill Manifest v1 recommended category taxonomy. This file is advisory only and does not participate in Schema validation.",
+  "categories": {
+    "ai-ml": {
+      "description": "AI and machine learning tools, model integration, training, inference",
+      "recommended_tags": ["llm", "embedding", "rag", "fine-tuning", "inference", "vision", "nlp", "speech"]
+    },
+    "utility": {
+      "description": "General-purpose utilities, converters, formatters, calculators",
+      "recommended_tags": ["converter", "formatter", "calculator", "parser", "generator", "validator"]
+    },
+    "development": {
+      "description": "Software development tools, code review, testing, CI/CD",
+      "recommended_tags": ["code-review", "testing", "debugging", "ci-cd", "linting", "refactoring", "documentation"]
+    },
+    "productivity": {
+      "description": "Productivity and workflow automation tools",
+      "recommended_tags": ["automation", "scheduling", "task-management", "note-taking", "reporting", "meeting"]
+    },
+    "web": {
+      "description": "Web scraping, API integration, web development tools",
+      "recommended_tags": ["scraping", "api", "seo", "analytics", "monitoring", "crawler"]
+    },
+    "science": {
+      "description": "Scientific research, data analysis, academic tools",
+      "recommended_tags": ["research", "statistics", "visualization", "simulation", "academic", "paper"]
+    },
+    "media": {
+      "description": "Content creation, image/video/audio processing",
+      "recommended_tags": ["image", "video", "audio", "design", "editing", "transcription", "translation"]
+    },
+    "social": {
+      "description": "Social media management, community tools",
+      "recommended_tags": ["social-media", "community", "engagement", "content-calendar", "influencer"]
+    },
+    "finance": {
+      "description": "Financial analysis, accounting, bookkeeping, investment",
+      "recommended_tags": ["accounting", "bookkeeping", "invoicing", "budgeting", "investment", "tax", "financial-report", "expense-tracking"]
+    },
+    "smart-home": {
+      "description": "IoT, smart home automation, device control",
+      "recommended_tags": ["iot", "home-automation", "device-control", "sensor", "energy"]
+    },
+    "communication": {
+      "description": "Email, messaging, notification tools",
+      "recommended_tags": ["email", "chat", "notification", "sms", "voip", "newsletter"]
+    },
+    "security": {
+      "description": "Security scanning, vulnerability detection, compliance checking",
+      "recommended_tags": ["vulnerability", "scanning", "encryption", "authentication", "audit", "penetration-testing"]
+    },
+    "data": {
+      "description": "Data processing, ETL, database tools",
+      "recommended_tags": ["etl", "database", "csv", "excel", "json", "data-cleaning", "data-pipeline"]
+    },
+    "ecommerce": {
+      "description": "E-commerce operations, product listing, marketplace management",
+      "recommended_tags": ["listing", "product-research", "pricing", "inventory", "marketplace", "amazon", "shopify", "tiktok-shop", "cross-border", "dropshipping"]
+    },
+    "logistics": {
+      "description": "Logistics, shipping, supply chain, warehouse management",
+      "recommended_tags": ["shipping", "tracking", "warehouse", "supply-chain", "fulfillment", "delivery", "freight", "customs"]
+    },
+    "customer-service": {
+      "description": "Customer support, helpdesk, ticket management, chatbot",
+      "recommended_tags": ["helpdesk", "ticket", "chatbot", "faq", "complaint", "feedback", "multilingual-support", "email-reply"]
+    },
+    "compliance": {
+      "description": "Regulatory compliance, certification, audit, policy checking",
+      "recommended_tags": ["regulation", "certification", "audit", "policy", "gdpr", "product-safety", "import-export", "labeling"]
+    },
+    "legal": {
+      "description": "Legal document review, contract analysis, IP management",
+      "recommended_tags": ["contract", "review", "ip", "trademark", "terms-of-service", "privacy-policy", "dispute"]
+    },
+    "healthcare": {
+      "description": "Healthcare, medical, wellness tools",
+      "recommended_tags": ["medical", "diagnosis", "wellness", "patient", "clinical", "pharmacy", "health-record"]
+    },
+    "other": {
+      "description": "Skills that do not fit into any other category",
+      "recommended_tags": []
+    }
+  }
+}
