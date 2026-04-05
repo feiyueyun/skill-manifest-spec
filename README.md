@@ -72,9 +72,20 @@ pretty, err := manifest.MarshalIndent(m, "  ")
 
 ```
 spec/skill-manifest-v1.schema.json
+spec/categories.json              # Recommended category taxonomy (advisory, not enforced)
 ```
 
 The schema uses JSON Schema draft-07 with `if/then` conditional dependencies (e.g. `type=service` requires `listen_port` and `protocol`).
+
+Key field groups:
+- Core: `name`, `version`, `description`, `type` (required)
+- Service config: `listen_port`, `protocol`, `mcp`, `mcp_mode`, `mcp_remote`
+- Permissions: `permissions`, `network_endpoints`, `risk_level`, `visibility`
+- AI readability: `when_to_use`, `category` (20 values), `capabilities`, `input_examples`, `tags`
+- Commercialization: `pricing` (6 models incl. `per_output`), `sla`, `resellable`
+- Quality: `output_format`, `output_schema`, `quality_indicators` (verified, security_audit, quality_score, source_type)
+- Interoperability: `interop`, `disclosure`, `ontology`, `instructions_path`
+- Runtime: `schedule`, `memory_access`, `depends_on`, `health_check`, `resource_limits`
 
 ## Examples
 
@@ -117,12 +128,14 @@ The parser uses a lenient strategy for unknown fields — they are preserved in 
 
 ```
 skill-manifest-spec/
-├── spec/                  # JSON Schema definition
-├── pkg/manifest/          # Go parsing library
-├── examples/              # Example skill.json files
-├── rfcs/                  # Standard evolution RFCs
+├── spec/
+│   ├── skill-manifest-v1.schema.json   # JSON Schema v1 (draft-07)
+│   └── categories.json                 # Recommended category taxonomy
+├── pkg/manifest/                       # Go parsing library
+├── examples/                           # Example skill.json files
+├── rfcs/                               # Standard evolution RFCs
 ├── CONTRIBUTING.md
-└── LICENSE                # Apache 2.0
+└── LICENSE                             # Apache 2.0
 ```
 
 ## License
