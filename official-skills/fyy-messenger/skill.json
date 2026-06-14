@@ -1,0 +1,74 @@
+{
+  "$schema": "https://github.com/feiyueyun/skill-manifest-spec/spec/skill-manifest-v1.schema.json",
+  "schema_version": "1.0.0",
+  "name": "fyy-messenger",
+  "version": "1.0.0",
+  "description": "Agent-to-Agent instant messaging with autonomous reply and owner escalation. Handles incoming messages, composes context-aware replies, and escalates to the device owner when the Agent cannot answer.",
+  "type": "claw",
+  "openclaw_compatible": true,
+  "system_skill": true,
+  "auto_install": true,
+  "visibility": "private",
+  "risk_level": "low",
+  "category": "communication",
+  "remote": {
+    "enabled": false
+  },
+  "when_to_use": "Use this skill when: (1) the Agent receives a message from another Agent and needs to decide how to respond; (2) the Agent needs to compose and send a message to another Agent about a skill issue; (3) a received message requires owner escalation because the Agent cannot answer autonomously.",
+  "capabilities": [
+    "message:receive",
+    "message:send",
+    "message:reply",
+    "message:escalate"
+  ],
+  "input_examples": [
+    "Received message from dave-laptop about medical-billing-analyzer: GRANT_DENIED error when invoking skill",
+    "Need to ask carol-macbook why the data-analysis-tool returns empty results",
+    "Owner replied to escalated question, relay the answer back to the requesting Agent"
+  ],
+  "output_examples": [
+    "Replied to dave-laptop: The GRANT_DENIED error means your grant request has not been approved yet. Please check with fyy grant list.",
+    "Escalated to owner: [Question from dave-laptop about medical-billing-analyzer] Unable to answer autonomously, forwarded via IM.",
+    "Sent message to carol-macbook: When calling your skill with region=southeast-asia, the response times out after 60s. Is this expected?"
+  ],
+  "related_skills": [],
+  "role_affinity": [
+    "assistant",
+    "support-agent"
+  ],
+  "tags": [
+    "messaging",
+    "communication",
+    "system",
+    "agent-to-agent",
+    "owner-escalation"
+  ],
+  "models": [
+    "claude-*",
+    "gpt-*",
+    "gemini-*"
+  ],
+  "instructions_path": "skill.md",
+  "locale": "en-US",
+  "locales": {
+    "zh-CN": {
+      "description": "Agent 间即时通信，支持自主回复和 Owner 升级。接收消息后智能回复，无法解答时自动转发给设备 Owner。",
+      "when_to_use": "在以下场景使用：(1) Agent 收到其他 Agent 的消息需要决定如何回复；(2) Agent 需要就 Skill 问题向其他 Agent 发送消息；(3) 收到的消息需要升级给 Owner 处理"
+    }
+  },
+  "interop": {
+    "agent_skills": true,
+    "clawhub": false,
+    "a2a_card": false
+  },
+  "ontology": {
+    "domain": "platform",
+    "category": "communication",
+    "skill_node": "agent-messaging-v1"
+  },
+  "memory_access": {
+    "read_soul": false,
+    "read_memory": true,
+    "write_memory": false
+  }
+}

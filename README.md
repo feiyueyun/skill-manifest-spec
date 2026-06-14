@@ -86,6 +86,8 @@ Key field groups:
 - Quality: `output_format`, `output_schema`, `quality_indicators` (verified, security_audit, quality_score, source_type)
 - Interoperability: `interop`, `disclosure`, `ontology`, `instructions_path`
 - Runtime: `schedule`, `memory_access`, `depends_on`, `health_check`, `resource_limits`
+- Remote exposure: `remote` (enabled, visibility, rate_limit, billing — structured JSON over tsnet)
+- System skill lifecycle: `system_skill`, `auto_install`
 
 ## Examples
 
@@ -94,6 +96,12 @@ Key field groups:
 | `examples/weather-lookup.skill.json` | `claw` | AI readability fields, permissions, i18n, interop, disclosure |
 | `examples/code-review.skill.json` | `service` | listen_port, protocol, health_check, schedule, depends_on |
 | `examples/database-query.skill.json` | `mcp` | MCP primitives (tools/resources/prompts), mcp_mode, ontology |
+
+### Official Skills
+
+| Directory | Skill Type | Highlights |
+|-----------|-----------|------------|
+| `official-skills/fyy-messenger/` | `claw` | system_skill, auto_install, remote disabled, owner escalation |
 
 ## Industry Compatibility
 
@@ -106,6 +114,56 @@ Skill Manifest is designed to interoperate with five major industry standards:
 | **A2A** (Google Agent-to-Agent) | Agent communication protocol | `interop.a2a_card` maps to A2A Agent Card |
 | **ClawHub** | OpenClaw skill marketplace ecosystem | `interop.clawhub` maps to claw.json format |
 | **SkillNet** (ZJU/OpenKG) | 200,000+ skill knowledge graph | `ontology` field references three-level skill ontology |
+
+## Remote Skill Exposure
+
+The `remote` field controls whether and how a skill can be invoked by other devices over the tsnet mesh network. Remote invocation uses a **structured JSON protocol over tsnet** (WireGuard encrypted) — skills are NOT converted to MCP Servers. This preserves both layers of skill value:
+
+- **Layer A (Reasoning)**: skill.md contains decision logic and domain knowledge, executed by Agent/LLM on the owner's device
+- **Layer B (Tools)**: scripts/ contains deterministic functions, also executed on the owner's device
+
+### `remote` field structure
+
+```json
+{
+  "remote": {
+    "enabled": true,
+    "visibility": "private",
+    "max_concurrency": 10,
+    "timeout_s": 60,
+    "rate_limit": {
+      "max_per_minute": 60,
+      "max_per_hour": 1000
+    },
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "region": { "type": "string" },
+        "industry": { "type": "string" }
+      }
+    },
+    "output_formats": ["markdown", "json"],
+    "billing": {
+      "model": "per_call",
+      "unit_price": 0.5,
+      "currency": "credit"
+    }
+  }
+}
+```
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `enabled` | boolean | `false` | Whether this skill can be exposed for remote invocation |
+| `visibility` | enum | `"private"` | Default visibility: `private` (grant holders only), `follows` (followers + grants), `public` (all) |
+| `max_concurrency` | integer | `10` | Maximum concurrent remote invocations (1-1000) |
+| `timeout_s` | integer | `60` | Invocation timeout in seconds (1-3600) |
+| `rate_limit` | object | — | Per-caller rate limiting |
+| `input_schema` | object | — | JSON Schema for structured input validation |
+| `output_formats` | string[] | — | Supported output formats |
+| `billing` | object | — | Billing model for remote callers |
+
+A skill with `remote.enabled: false` (or no `remote` field) cannot be exposed via `fyy skill expose`.
 
 Format conversion tools are in a separate repository: [`skill-interop-tools`](https://github.com/feiyueyun/skill-interop-tools).
 
@@ -133,6 +191,8 @@ skill-manifest-spec/
 │   └── categories.json                 # Recommended category taxonomy
 ├── pkg/manifest/                       # Go parsing library
 ├── examples/                           # Example skill.json files
+├── official-skills/                    # Platform-provided system skills
+│   └── fyy-messenger/                  # Agent-to-Agent messaging skill
 ├── rfcs/                               # Standard evolution RFCs
 ├── CONTRIBUTING.md
 └── LICENSE                             # Apache 2.0

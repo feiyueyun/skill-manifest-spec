@@ -71,6 +71,13 @@ type Manifest struct {
 	Schedule     *Schedule     `json:"schedule,omitempty"`
 	RemoteConfig *bool         `json:"remote_config,omitempty"`
 
+	// System skill lifecycle
+	SystemSkill *bool `json:"system_skill,omitempty"`
+	AutoInstall *bool `json:"auto_install,omitempty"`
+
+	// Remote skill exposure
+	Remote *Remote `json:"remote,omitempty"`
+
 	// Dependency management
 	DependsOn          []Dependency `json:"depends_on,omitempty"`
 	ConflictsWith      []string     `json:"conflicts_with,omitempty"`
@@ -251,4 +258,31 @@ type QualityIndicators struct {
 	TotalCalls    *int     `json:"total_calls,omitempty"`
 	SourceType    *string  `json:"source_type,omitempty"`
 	SourceURL     *string  `json:"source_url,omitempty"`
+}
+
+// Remote holds remote skill exposure configuration.
+// Controls whether and how this skill can be invoked by other devices
+// over the tsnet mesh network using the structured JSON protocol.
+type Remote struct {
+	Enabled        *bool            `json:"enabled,omitempty"`
+	Visibility     *string          `json:"visibility,omitempty"`
+	MaxConcurrency *int             `json:"max_concurrency,omitempty"`
+	TimeoutS       *int             `json:"timeout_s,omitempty"`
+	RateLimit      *RemoteRateLimit `json:"rate_limit,omitempty"`
+	InputSchema    any              `json:"input_schema,omitempty"`
+	OutputFormats  []string         `json:"output_formats,omitempty"`
+	Billing        *RemoteBilling   `json:"billing,omitempty"`
+}
+
+// RemoteRateLimit holds per-caller rate limiting for remote invocations.
+type RemoteRateLimit struct {
+	MaxPerMinute *int `json:"max_per_minute,omitempty"`
+	MaxPerHour   *int `json:"max_per_hour,omitempty"`
+}
+
+// RemoteBilling holds billing configuration for remote invocations.
+type RemoteBilling struct {
+	Model     *string  `json:"model,omitempty"`
+	UnitPrice *float64 `json:"unit_price,omitempty"`
+	Currency  *string  `json:"currency,omitempty"`
 }

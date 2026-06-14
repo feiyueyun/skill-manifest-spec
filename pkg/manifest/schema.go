@@ -713,6 +713,111 @@ var schemaJSON = `{
       "additionalProperties": false,
       "description": "Skill quality and security indicators (some fields populated by platform at runtime)"
     },
+    "system_skill": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a platform-provided system skill (managed by the platform, not user-installable from marketplace)"
+    },
+    "auto_install": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this skill is automatically installed on first daemon startup"
+    },
+    "remote": {
+      "type": "object",
+      "description": "Remote skill exposure configuration. Controls whether and how this skill can be invoked by other devices over the tsnet mesh network using the structured JSON protocol.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this skill can be exposed for remote invocation via fyy skill expose"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "private",
+            "follows",
+            "public"
+          ],
+          "default": "private",
+          "description": "Default visibility when exposed. private: only grant holders; follows: followers + grant holders; public: discoverable by all"
+        },
+        "max_concurrency": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000,
+          "default": 10,
+          "description": "Maximum concurrent remote invocations"
+        },
+        "timeout_s": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3600,
+          "default": 60,
+          "description": "Default timeout in seconds for remote invocations"
+        },
+        "rate_limit": {
+          "type": "object",
+          "description": "Per-caller rate limiting for remote invocations",
+          "properties": {
+            "max_per_minute": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000,
+              "default": 60,
+              "description": "Maximum invocations per minute per caller"
+            },
+            "max_per_hour": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000,
+              "description": "Maximum invocations per hour per caller"
+            }
+          },
+          "additionalProperties": false
+        },
+        "input_schema": {
+          "type": "object",
+          "description": "JSON Schema for the structured input accepted by remote invocation. Advertised to consumers for input validation."
+        },
+        "output_formats": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Supported output format list for remote results (e.g. markdown, json, text)"
+        },
+        "billing": {
+          "type": "object",
+          "description": "Billing configuration for remote invocations",
+          "properties": {
+            "model": {
+              "type": "string",
+              "enum": [
+                "free",
+                "per_call",
+                "per_token",
+                "per_minute"
+              ],
+              "default": "free",
+              "description": "Billing model for remote callers"
+            },
+            "unit_price": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Price per unit in the specified currency"
+            },
+            "currency": {
+              "type": "string",
+              "default": "credit",
+              "description": "Currency for billing"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
     "extra_metadata": {
       "type": "object",
       "additionalProperties": true,
