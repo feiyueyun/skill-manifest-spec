@@ -1,6 +1,6 @@
 # Skill Manifest Specification
 
-**Skill Manifest (skill.json)** is the core standard file format for the FYY distributed AI workflow platform, describing AI Agent skill metadata, capability declarations, permission requirements, protocol configuration, industry interoperability, and commercialization information.
+**Skill Manifest (skill.json)** is the core standard file format for the FYY decentralized skill marketplace, describing AI Agent skill metadata, capability declarations, permission requirements, protocol configuration, industry interoperability, and commercialization information.
 
 The first specification to unify **knowledge description + executable services + network interconnection** in a single skill descriptor.
 
